@@ -58,7 +58,9 @@ router.get('/edit', function(req, res) {
 		if (err) {
 			return res.status(500).send('Server error.')
 		} //获取要修改的信息，渲染到编辑页面
-		res.render('edit.html')
+		res.render('edit.html', {
+			student: findStu
+		})
 	})
 })
 
@@ -84,3 +86,4 @@ router.get('/delete', function(req, res) {
 
 // 3. 把 router 导出
 module.exports = router
+
