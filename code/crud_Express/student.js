@@ -38,7 +38,7 @@ exports.save = function(stu, callback) {
         var studentsGet = JSON.parse(data).students
 
         // 添加 id
-        stu.id = parseInt(studentsGet[studentsGet.length - 1].id) + 1
+        stu.id = studentsGet[studentsGet.length - 1].id + 1
         // 把用户传递的对象保存到数组中
         studentsGet.push(stu)
         // 把对象数据转换为字符串
@@ -86,9 +86,12 @@ exports.editById = function(editStu, callback) {
         }
         var studentsGet = JSON.parse(data).students
 
+        // 注意：这里把 id 转换为数字类型
+        editStu.id = parseInt(editStu.id)
+
         //找到要修改的
         var findStu = studentsGet.find(function(item) {
-            return item.id === parseInt(editStu.id)
+            return item.id === editStu.id
         })
 
         //遍历更新
@@ -104,10 +107,8 @@ exports.editById = function(editStu, callback) {
         // 把字符串保存到文件中
         fs.writeFile(dbPath, fileData, function(err) {
             if (err) {
-                // 错误就是把错误对象传递给它
                 return callback(err)
             }
-            // 成功错误对象是 null
             callback(null)
         })
     })
