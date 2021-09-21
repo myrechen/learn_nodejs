@@ -81,11 +81,24 @@
               <label for="" style="color:red">(请注意核对)</label>
               <div>
                 <label class="radio-inline">
-                    <input type="radio" name="gender" id="" value="0" >男
+                    <input type="radio" name="gender" id="Male" value="0">男
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="gender" id="" value="1" checked="checked">女
-                    </label>
+                    <input type="radio" name="gender" id="Female" value="1">女
+                </label>
+
+                //根据gender确定单选按钮状态
+                <script type="text/javascript">
+                  var gender = {{ student.gender }}
+                  gender = parseInt(gender)
+
+                  if(gender == 0) {
+                    document.getElementById("Male").checked = true
+                  } else {
+                    document.getElementById("Female").checked = true
+                  }
+                </script>
+
               </div>    
             </div>
 
