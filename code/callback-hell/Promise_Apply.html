@@ -64,20 +64,51 @@
       //   })
       // })
 
-      //jquery支持Promise, 获取到的数据就是对象，不用转换
-      var userInfo = {}
-      $.get("http://localhost:3000/users/3")
-        .then(function(userdata){
-          userInfo.user = userdata
-          return $.get("http://localhost:3000/jobs")
+      // jquery支持Promise, 获取到的数据就是对象，不用转换
+      // var userInfo = {}
+      // $.get("http://localhost:3000/users/3")
+      //   .then(function(userdata){
+      //     userInfo.user = userdata
+      //     return $.get("http://localhost:3000/jobs")
+      //   })
+      //   .then(function(jobdata){
+      //     userInfo.jobs = jobdata
+      //     console.log(userInfo)
+      //     var htmlStr = template('tpl',userInfo)
+      //     console.log(htmlStr)
+      //     document.querySelector('#userInfo').innerHTML = htmlStr
+      //   })
+
+      // 如果API不支持Promise，就需要自己封装
+      // 假设get()不支持，封装get()，使支持Promise
+      function Pro_get(url){
+        return new Promise(function(resolve,reject){
+          var oReq = new XMLHttpRequest()
+          oReq.onload = function() {
+            //成功，则通过resolve的方式获取oReq.responseText
+            resolve(JSON.parse(oReq.responseText))
+          }
+          oReq.onerror = function (err) {
+            reject(err)   //失败
+          }
+          oReq.open("get", url, true)
+          oReq.send()
         })
-        .then(function(jobdata){
+      }
+
+      var userInfo = {}
+      Pro_get('http://localhost:3000/users/1')
+       .then(function(userdata){
+          userInfo.user = userdata
+          return Pro_get("http://localhost:3000/jobs")
+       })
+       .then(function(jobdata){
           userInfo.jobs = jobdata
           console.log(userInfo)
           var htmlStr = template('tpl',userInfo)
           console.log(htmlStr)
           document.querySelector('#userInfo').innerHTML = htmlStr
-        })
+       })
 
     </script>
 
