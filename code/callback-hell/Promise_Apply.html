@@ -52,17 +52,33 @@
       }
 
       //
-      get("http://localhost:3000/users/2",function(userdata){
-        get("http://localhost:3000/jobs",function(jobdata){
-          var htmlStr = template('tpl',{
-          user:JSON.parse(userdata),
-          jobs:JSON.parse(jobdata)
-          })
+      // get("http://localhost:3000/users/2",function(userdata){
+      //   get("http://localhost:3000/jobs",function(jobdata){
+      //     var htmlStr = template('tpl',{
+      //     user:JSON.parse(userdata),
+      //     jobs:JSON.parse(jobdata)
+      //     })
+      //     console.log(htmlStr)
+      //     //根据user.job的值和jobs.id判断选中状态
+      //     document.querySelector('#userInfo').innerHTML = htmlStr
+      //   })
+      // })
+
+      //jquery支持Promise, 获取到的数据就是对象，不用转换
+      var userInfo = {}
+      $.get("http://localhost:3000/users/3")
+        .then(function(userdata){
+          userInfo.user = userdata
+          return $.get("http://localhost:3000/jobs")
+        })
+        .then(function(jobdata){
+          userInfo.jobs = jobdata
+          console.log(userInfo)
+          var htmlStr = template('tpl',userInfo)
           console.log(htmlStr)
-          //根据user.job的值和jobs.id判断选中状态
           document.querySelector('#userInfo').innerHTML = htmlStr
         })
-      })
+
     </script>
 
 </body>
