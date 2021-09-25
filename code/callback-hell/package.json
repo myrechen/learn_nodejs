@@ -1,0 +1,16 @@
+{
+  "name": "callback-hell",
+  "version": "1.0.0",
+  "description": "## 1.calback-hell 回调地狱",
+  "main": "Promise_API.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "jquery": "^3.6.0"
+  }
+}
