@@ -81,10 +81,13 @@
 
       // 如果API不支持Promise，就需要自己封装
       // 假设get()不支持，封装get()，使支持Promise
-      function Pro_get(url){
+      // 增加callback参数，使支持callback
+      function Pro_get(url,callback){
         return new Promise(function(resolve,reject){
           var oReq = new XMLHttpRequest()
           oReq.onload = function() {
+            //通过callback得到oReq.responseText
+            callback && callback(JSON.parse(oReq.responseText))
             //成功，则通过resolve的方式获取oReq.responseText
             resolve(JSON.parse(oReq.responseText))
           }
@@ -109,6 +112,17 @@
           console.log(htmlStr)
           document.querySelector('#userInfo').innerHTML = htmlStr
        })
+
+       //callback得到user2
+       Pro_get('http://localhost:3000/users/2', function(data){
+        console.log(data)
+       })
+
+       //resolve得到user3,不传callback
+       Pro_get('http://localhost:3000/users/3')
+        .then(function(data){
+          console.log(data)
+        })
 
     </script>
 
