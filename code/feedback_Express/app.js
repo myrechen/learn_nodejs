@@ -32,6 +32,9 @@ app.use('/public/', express.static('./public'))
 // 原因就在于 express-art-template 依赖了 art-template
 app.engine('html', require('express-art-template'))
 
+// 如果想要修改默认的 views 目录，则可以
+// app.set('views', render函数的默认路径)
+
 // Express 为 Response 相应对象提供了一个方法：render
 // render 方法默认是不可以使用，但是如果配置了模板引擎就可以使用了
 // res.render('html模板名', {模板数据})
