@@ -1,3 +1,5 @@
+<!-- 使用json-server将data.json文件作为 api 的数据源 -->
+<!-- 使用http-serve打开html页面 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,10 +9,11 @@
 </head>
 
 <body>
-    <form action="" id="userInfo">
-    </form>
+    <form action="" id="userInfo"></form>
+
     <script src="node_modules/art-template/lib/template-web.js"></script>
     <script src="node_modules/jquery/dist/jquery.js"></script>
+    <!-- 个人信息模板 -->
     <script type="text/template" id="tpl">
         <div>
             <label for="">用户名:</label>
@@ -23,10 +26,13 @@
         <div>
           <label for="">职业:</label>
           <select id="">
-            <option value="">学生</option>
-            <option value="">老师</option>
-            <option value="">程序员</option>
-            <option value="">医生</option>
+            {{ each jobs }} 
+            {{ if user.job === $value.id }}
+            <option value="{{ $value.id }}" selected>{{ $value.jobname }}</option>
+            {{ else }}
+            <option value="{{ $value.id }}">{{ $value.jobname }}</option>
+            {{ /if }}
+            {{ /each }}
           </select>
         </div>
     </script>
@@ -38,7 +44,7 @@
           var oReq = new XMLHttpRequest()
           // 当请求加载成功之后要调用指定的函数
           oReq.onload = function() {
-              // 我现在需要得到这里的 oReq.responseText
+              // 现在需要得到这里的 oReq.responseText
               callback(oReq.responseText)
           }
           oReq.open("get", url, true)
@@ -46,14 +52,19 @@
       }
 
       //
-      get("http://localhost:3000/users/1",function(userdata){
-        var htmlStr = template('tpl',{
-          user:JSON.parse(userdata)
+      get("http://localhost:3000/users/2",function(userdata){
+        get("http://localhost:3000/jobs",function(jobdata){
+          var htmlStr = template('tpl',{
+          user:JSON.parse(userdata),
+          jobs:JSON.parse(jobdata)
+          })
+          console.log(htmlStr)
+          //根据user.job的值和jobs.id判断选中状态
+          document.querySelector('#userInfo').innerHTML = htmlStr
         })
-        console.log(htmlStr)
-        document.querySelector('#userInfo').innerHTML = htmlStr
       })
     </script>
+
 </body>
 
 </html>
