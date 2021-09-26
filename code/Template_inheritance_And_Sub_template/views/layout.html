@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+
+	<!-- 预留继承页style -->
+	{{ block 'cssStyle'}}{{ /block }}
+</head>
+<body>
+	{{ include './header.html'}}
+
+	<!-- 留一个位置， 继承的文件在这个位置填 -->
+	{{ block 'content' }}
+		<h1>默认的内容</h1>
+	{{ /block }}
+
+	{{ include './footer.html'}}
+
+	<script src="/node_modules/jquery/dist/jquery.js"></script>
+	<script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- 预留继承页scripts -->
+	{{ block 'script'}}{{ /block }}
+</body>
+</html>
