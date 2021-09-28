@@ -42,6 +42,11 @@ app.get('/a', function (req, res, next) {
   })
 })
 
+// 在所有请求都没匹配上时响应404
+app.use(function (req, res, next) {
+  res.send('404')
+})
+
 // 配置错误处理中间件
 app.use(function (err, req, res, next) {
   res.status(500).send(err.message)
